@@ -4,7 +4,9 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { styles } from '@/style/style';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
 const Setting = () => {
     return (
@@ -21,6 +23,12 @@ const Setting = () => {
                 <ThemedText type="title">Welcome to Heathcare!</ThemedText>
                 <HelloWave />
             </ThemedView>
+            <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => router.replace('/')}
+            >
+                <ThemedText style={styles.addButtonText}>Se deconnecter</ThemedText>
+            </TouchableOpacity>
         </ParallaxScrollView>
     );
 };

@@ -21,6 +21,10 @@ const MAPPING = {
   'gearshape.fill': 'settings',
   // logout
   'arrow.right.square.fill': 'logout',
+  // planning
+  'calendar': 'calendar-today',
+  // message
+  'message': 'message',
 } as IconMapping;
 
 /**

@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    coachItem: {
+        padding: 16,
+        backgroundColor: '#1D3D47',
+        borderRadius: 8,
+        marginBottom: 12,
+    },
     titleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -36,4 +42,15 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 12,
         backgroundColor: "#fff",
     },
+    addButton: {
+        backgroundColor: "#007AFF",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+        marginVertical: 10,
+    },
+    addButtonText: {
+        color: "#fff",
+        fontWeight: "bold",
+    }
 });
