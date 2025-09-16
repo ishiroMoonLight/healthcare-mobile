@@ -25,6 +25,8 @@ const MAPPING = {
   'calendar': 'calendar-today',
   // message
   'message': 'message',
+  // profile
+  'person': 'person',
 } as IconMapping;
 
 /**

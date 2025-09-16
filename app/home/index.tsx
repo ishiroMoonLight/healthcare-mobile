@@ -1,9 +1,11 @@
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import {
+    Alert,
     Button,
     Modal,
     ScrollView,
@@ -92,21 +94,31 @@ export default function Home() {
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState<any>(null);
 
+    const [newType, setNewType] = useState("");
+
+
     // Ajouter un planning
     const addPlanning = () => {
-        if (newTitle && newDate) {
-            const newItem = {
-                id: planning.length + 1,
-                title: newTitle,
-                date: newDate,
-                status: "Pending",
-            };
-            setPlanning([...planning, newItem]);
-            setNewTitle("");
-            setNewDate("");
-            setModalVisible(false);
+        if (!newTitle || !newDate || !newType) {
+            Alert.alert("Erreur", "Veuillez remplir tous les champs");
+            return;
         }
+
+        const newItem = {
+            id: planning.length + 1,
+            title: newTitle,
+            date: newDate,
+            type: newType,
+            status: "Pending",
+        };
+
+        setPlanning([...planning, newItem]);
+        setNewTitle("");
+        setNewDate("");
+        setNewType("");
+        setModalVisible(false);
     };
+
 
     // Mettre à jour le statut
     const updateStatus = (status: string) => {
@@ -180,6 +192,19 @@ export default function Home() {
                         value={newTitle}
                         onChangeText={setNewTitle}
                     />
+                    {/* Dropdown Type d’activité */}
+                    <Picker
+                        selectedValue={newType}
+                        style={styles.input}
+                        onValueChange={(itemValue) => setNewType(itemValue)}
+                    >
+                        <Picker.Item label="Sélectionnez un type d'activité" value="" />
+                        <Picker.Item label="Repas" value="repas" />
+                        <Picker.Item label="Médicament" value="medicament" />
+                        <Picker.Item label="Sport" value="sport" />
+                        <Picker.Item label="Hydratation" value="hydratation" />
+                        <Picker.Item label="Consultation" value="consultation" />
+                    </Picker>
                     <TextInput
                         placeholder="Date (YYYY-MM-DD)"
                         style={styles.input}

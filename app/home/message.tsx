@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { styles } from '@/style/style';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
@@ -30,7 +31,7 @@ const Message = () => {
                     <TouchableOpacity
                         key={coach.id}
                         style={styles.coachItem}
-                    // onPress={() => router.push(`/messages/${coach.id}`)}
+                        onPress={() => router.push(`/messages/${coach.id}`)}
                     >
                         <ThemedText type="title">{coach.name}</ThemedText>
                     </TouchableOpacity>

@@ -1,6 +1,35 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    message: {
+        padding: 10,
+        borderRadius: 8,
+        marginVertical: 4,
+        maxWidth: '80%',
+    },
+    userMessage: {
+        backgroundColor: '#DCF8C6',
+        alignSelf: 'flex-end',
+        color: '#1c1c1c',
+    },
+    coachMessage: {
+        backgroundColor: '#E2E2E2',
+        alignSelf: 'flex-start',
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        gap: 8,
+        alignItems: 'center',
+    },
+    inputMessage: {
+        flex: 1,
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        backgroundColor: '#fff',
+    },
     coachItem: {
         padding: 16,
         backgroundColor: '#1D3D47',
