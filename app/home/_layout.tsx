@@ -5,7 +5,6 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Alert } from 'react-native';
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -24,19 +23,33 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: 'Home',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+                    title: 'Planning',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
                 }}
             />
             <Tabs.Screen
-                name="setting"
+                name="message"
                 options={{
-                    title: 'Setting',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="gearshape.fill" color={color} />,
+                    title: 'Messages',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="message" color={color} />,
                 }}
             />
-            {/* Onglet Logout */}
             <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="person" color={color} />,
+                }}
+            />
+            {/* <Tabs.Screen
+                name="planning"
+                options={{
+                    title: 'Planning',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
+                }}
+            /> */}
+            {/* Onglet Logout */}
+            {/* <Tabs.Screen
                 name="logout"
                 options={{
                     title: "Logout",
@@ -53,7 +66,7 @@ export default function TabLayout() {
                         />
                     ),
                 }}
-            />
+            /> */}
         </Tabs>
     );
 }

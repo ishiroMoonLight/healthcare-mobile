@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/themed-view";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
 export default function RegisterScreen() {
     const [name, setName] = useState("DOE John");
@@ -60,7 +60,14 @@ export default function RegisterScreen() {
                 secureTextEntry
             />
 
-            <Button title="S'inscrire" onPress={handleRegister} />
+            {/* <Button title="S'inscrire" onPress={handleRegister} /> */}
+
+            <TouchableOpacity
+                style={styles.addButton}
+                onPress={handleRegister}
+            >
+                <ThemedText style={styles.addButtonText}>S'inscrire</ThemedText>
+            </TouchableOpacity>
 
             {/* Lien vers inscription */}
             <TouchableOpacity style={styles.linkContainer}>
@@ -78,6 +85,18 @@ export const unstable_settings = {
 };
 
 const styles = StyleSheet.create({
+    addButton: {
+        // vert foncé
+        backgroundColor: "#41830fff",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+        marginVertical: 10,
+    },
+    addButtonText: {
+        color: "#fff",
+        fontWeight: "bold",
+    },
     container: {
         flex: 1,
         justifyContent: "center",

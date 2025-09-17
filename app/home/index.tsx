@@ -1,10 +1,19 @@
-import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+    Alert,
+    Button,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 const styles = StyleSheet.create({
     titleContainer: {
@@ -19,9 +28,6 @@ const styles = StyleSheet.create({
     reactLogo: {
         height: "100%",
         width: "100%",
-        //   bottom: 0,
-        //   left: 0,
-        //   position: 'absolute',
     },
     container: {
         flex: 1,
@@ -41,10 +47,92 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 12,
         backgroundColor: "#fff",
+        marginBottom: 10,
+    },
+    addButton: {
+        // vert foncé
+        backgroundColor: "#41830fff",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+        marginVertical: 10,
+    },
+    addButtonText: {
+        color: "#fff",
+        fontWeight: "bold",
+    },
+    modalContent: {
+        flex: 1,
+        justifyContent: "center",
+        padding: 20,
+        backgroundColor: '#1D3D47'
+    },
+    itemContainer: {
+        padding: 12,
+        marginBottom: 12,
+        borderRadius: 8,
+        backgroundColor: "#1D3D47",
+    },
+    status: {
+        fontStyle: "italic",
+        color: "gray",
     },
 });
 
 export default function Home() {
+    const [planning, setPlanning] = useState([
+        { id: 1, title: "Rendez-vous chez le médecin", date: "2024-07-01", status: "Pending" },
+        { id: 2, title: "Prise de sang", date: "2024-07-10", status: "Pending" },
+        { id: 3, title: "Consultation spécialisée", date: "2024-07-15", status: "Pending" },
+        { id: 4, title: "Entrainement", date: "2024-07-15", status: "Pending" },
+        { id: 5, title: "Méditation", date: "2024-07-15", status: "Pending" },
+    ]);
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newTitle, setNewTitle] = useState("");
+    const [newDate, setNewDate] = useState("");
+
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<any>(null);
+
+    const [newType, setNewType] = useState("");
+
+
+    // Ajouter un planning
+    const addPlanning = () => {
+        if (!newTitle || !newDate || !newType) {
+            Alert.alert("Erreur", "Veuillez remplir tous les champs");
+            return;
+        }
+
+        const newItem = {
+            id: planning.length + 1,
+            title: newTitle,
+            date: newDate,
+            type: newType,
+            status: "Pending",
+        };
+
+        setPlanning([...planning, newItem]);
+        setNewTitle("");
+        setNewDate("");
+        setNewType("");
+        setModalVisible(false);
+    };
+
+
+    // Mettre à jour le statut
+    const updateStatus = (status: string) => {
+        if (selectedItem) {
+            const updated = planning.map((item) =>
+                item.id === selectedItem.id ? { ...item, status } : item
+            );
+            setPlanning(updated);
+            setSelectedItem(null);
+            setEditModalVisible(false);
+        }
+    };
+
     return (
         <ParallaxScrollView
             headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -56,9 +144,94 @@ export default function Home() {
             }
         >
             <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">Welcome to Heathcare!</ThemedText>
-                <HelloWave />
+                <ThemedText type="title">Votre planning du jour:</ThemedText>
             </ThemedView>
+
+            <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => setModalVisible(true)}
+            >
+                <ThemedText style={styles.addButtonText}>+ Ajouter un planning</ThemedText>
+            </TouchableOpacity>
+
+            {/* Liste des plannings */}
+            <ScrollView>
+                {planning.map((item) => (
+                    <TouchableOpacity
+                        key={item.id}
+                        style={styles.itemContainer}
+                        onPress={() => {
+                            setSelectedItem(item);
+                            setEditModalVisible(true);
+                        }}
+                    >
+                        <ThemedText type="title">{item.title}</ThemedText>
+                        <ThemedText>{new Date(item.date).toLocaleDateString()}</ThemedText>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+
+            {/* Modal update */}
+            <Modal visible={editModalVisible} animationType="slide">
+                <View style={styles.modalContent}>
+                    <ThemedText type="title">
+                        Modifier le status de : {selectedItem?.title}
+                    </ThemedText>
+                    <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={() => updateStatus("Done")}
+                    >
+                        <ThemedText style={styles.addButtonText}>Marquer comme Terminé</ThemedText>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{ ...styles.addButton, backgroundColor: 'orange' }}
+                        onPress={() => updateStatus("Skipped")}
+                    >
+                        <ThemedText style={styles.addButtonText}>Marquer comme Skipped</ThemedText>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={{ ...styles.addButton, backgroundColor: 'red' }}
+                        onPress={() => setEditModalVisible(false)}
+                    >
+                        <ThemedText style={styles.addButtonText}>Annuler</ThemedText>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
+
+            {/* Modal */}
+            <Modal visible={modalVisible} animationType="slide">
+                <View style={styles.modalContent}>
+                    <ThemedText type="title">Ajouter un planning</ThemedText>
+                    <TextInput
+                        placeholder="Titre"
+                        style={styles.input}
+                        value={newTitle}
+                        onChangeText={setNewTitle}
+                    />
+                    {/* Dropdown Type d’activité */}
+                    <Picker
+                        selectedValue={newType}
+                        style={styles.input}
+                        onValueChange={(itemValue) => setNewType(itemValue)}
+                    >
+                        <Picker.Item label="Sélectionnez un type d'activité" value="" />
+                        <Picker.Item label="Repas" value="repas" />
+                        <Picker.Item label="Médicament" value="medicament" />
+                        <Picker.Item label="Sport" value="sport" />
+                        <Picker.Item label="Hydratation" value="hydratation" />
+                        <Picker.Item label="Consultation" value="consultation" />
+                    </Picker>
+                    <TextInput
+                        placeholder="Date (YYYY-MM-DD)"
+                        style={styles.input}
+                        value={newDate}
+                        onChangeText={setNewDate}
+                    />
+                    <Button title="Ajouter" onPress={addPlanning} />
+                    <Button title="Annuler" color="red" onPress={() => setModalVisible(false)} />
+                </View>
+            </Modal>
         </ParallaxScrollView>
     );
-};
+}

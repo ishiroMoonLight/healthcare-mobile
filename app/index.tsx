@@ -1,43 +1,44 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { styles } from "@/style/style";
 import { Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Alert, TextInput, TouchableOpacity } from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-    gap: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 24,
-  },
-  input: {
-    width: "100%",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    backgroundColor: "#fff",
-    marginBottom: 12,
-  },
-  linkContainer: {
-    marginTop: 16,
-  },
-  linkText: {
-    color: "#007BFF",
-    fontSize: 16,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     padding: 20,
+//     backgroundColor: "#f5f5f5",
+//     gap: 16,
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     marginBottom: 24,
+//   },
+//   input: {
+//     width: "100%",
+//     height: 50,
+//     borderWidth: 1,
+//     borderColor: "#ccc",
+//     borderRadius: 8,
+//     paddingHorizontal: 12,
+//     backgroundColor: "#fff",
+//     marginBottom: 12,
+//   },
+//   linkContainer: {
+//     marginTop: 16,
+//   },
+//   linkText: {
+//     color: "#007BFF",
+//     fontSize: 16,
+//   },
+// });
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("john.doe@gmail.com");
@@ -86,10 +87,22 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      <Button title="Se connecter" onPress={handleLogin} />
-      {/* Lien vers inscription */}
-      <TouchableOpacity style={styles.linkContainer}>
-        <Link href="/register" style={styles.linkText}>
+      {/* <Button title="Se connecter" onPress={handleLogin} /> */}
+
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={handleLogin}
+      >
+        <ThemedText style={styles.addButtonText}>Se connecter</ThemedText>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={{
+        marginTop: 16,
+      }}>
+        <Link href="/register" style={{
+          color: "#007BFF",
+          fontSize: 16,
+        }}>
           Pas encore de compte ?
         </Link>
       </TouchableOpacity>
